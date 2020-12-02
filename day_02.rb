@@ -3,17 +3,16 @@
 input = File.open('day_02.input').lines.map do |line|
   rule, password = line.split(': ')
   quantity, char = rule.split(' ')
-  range = Range.new(*quantity.split('-').map(&:to_i))
+  positions = quantity.split('-').map(&:to_i)
   {
     char: char,
-    range: range,
+    positions: positions,
     password: password
   }
 end
 
-valid = input.select do |char:, range:, password:|
-  puts "char: '#{char}', range: #{range}, char count: #{password.count(char)}, includes: #{range.cover?(password.count(char))} password: #{password}"
-  range.cover?(password.count(char))
+valid = input.select do |char:, positions:, password:|
+  positions.map {|pos| password[pos - 1]}.count(char) == 1
 end
 
 puts "input: #{input.count}, valid: #{valid.count}"
