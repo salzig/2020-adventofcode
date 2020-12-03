@@ -43,4 +43,8 @@ end
 
 map = Map.new(File.read('day_03.input').lines)
 
-puts map.trees_hit_for_slope(1, 3)
+trees_hit = [[1, 1],[1, 3],[1, 5],[1, 7],[2, 1]].map do |dx, dy|
+  map.trees_hit_for_slope(dx, dy)
+end
+
+puts trees_hit.inject(:*)
