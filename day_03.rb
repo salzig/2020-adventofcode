@@ -21,23 +21,26 @@ class Map
     at(x, y) == '#' rescue false
   end
 
-  def print(x, y)
+  def debug_print(x, y)
     line = @raw[x]
     line[y % width] = tree?(x, y) ? 'X' : 'O' unless line.nil?
     puts line
+  end
+
+  def trees_hit_for_slope(dx, dy, debug = false)
+    x, y, trees = 0, 0, 0
+
+    while x < height
+      x += dx
+      y += dy
+
+      trees += 1 if tree?(x, y)
+      debug_print(x, y) if debug
+    end
+    trees
   end
 end
 
 map = Map.new(File.read('day_03.input').lines)
 
-x, y, trees = 0, 0, 0
-
-while x < map.height
-  x += 1
-  y += 3
-
-  trees += 1 if map.tree?(x, y)
-  map.print(x, y)
-end
-
-puts trees
+puts map.trees_hit_for_slope(1, 3)
